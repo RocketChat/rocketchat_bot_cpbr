@@ -10,7 +10,8 @@
 
 module.exports = (robot) ->
 
-  robot.respond /próximas (.*) palestras/i, (res) ->
+  robot.respond /próximas palestras/i, (res) ->
+
     url = "http://campuse.ro/api/legacy/events/campus-party-brasil-2017/schedule"
     url = "http://0.0.0.0:8000/schedule.json"
     res.http(url)
