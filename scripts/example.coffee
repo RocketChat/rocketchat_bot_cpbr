@@ -10,25 +10,23 @@
 
 module.exports = (robot) ->
 
-  robot.respond /próximas palestras/i, (res) ->
-
+  robot.respond /.*próximas.*palestras.*/i, (res) ->
     url = "http://campuse.ro/api/legacy/events/campus-party-brasil-2017/schedule"
-    url = "http://0.0.0.0:8000/schedule.json"
     res.http(url)
       .get() (err, resp, body) ->
-        now = new Date()
-        max_items = 5
+        now = new Date
+        maxItems = 5
         data = JSON.parse body
         count = 0
-        fullText = '*Próximos eventos:*'
+        fullText = '*Próximos eventos:*\n'
 
         for event, i in data
-          event.date = event.date
+          event.date = new Date event.date
 
           if (event.date < now)
             continue;
 
-          if (count >= max_items)
+          if (count >= maxItems)
             break;
 
           count += 1
@@ -38,9 +36,6 @@ module.exports = (robot) ->
           fullText += "#{event.description}\n\n"
 
         res.send fullText
-
-  robot.hear /teste/, (res) ->
-    res.send "Testando"
 
   # robot.hear /badger/i, (res) ->
   #   res.send "Badgers? BADGERS? WE DON'T NEED NO STINKIN BADGERS"
